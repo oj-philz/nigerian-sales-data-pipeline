@@ -1,15 +1,17 @@
 import pandas as pd
 
+
 def transform_data(df):
 
     # Standerdized the text in product and state columns
-    df['Product'] = df['Product'].str.title()
-    df['State'] = df['State'].str.title()
+    df['Product'] = df['Product'].str.strip().str.title()
+    df['State'] = df['State'].str.strip().str.title()
 
     #drop rows with missing Customer Name and Order ID
     df = df.dropna(subset=["Customer Name", "Order ID"])
 
     # Categorize missing Sales Channel as 'Unknown'
+    df['Sales Channel'] = df['Sales Channel'].str.strip().str.title()
     df["Sales Channel"] = df["Sales Channel"].fillna("Unknown")
 
     # Convert to Categorical Second
