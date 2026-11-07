@@ -13,3 +13,5 @@ print(df['Product'].value_counts())
 print(df['Unit Price'])
 print(df['Units Sold'])
 print(df['Total Sale'])
+
+ff

@@ -38,11 +38,11 @@ def transform_data(df):
     # Fallback for rows where BOTH Sold and Sale are missing
     # Group by Product_ID to find typical purchase volume for that specific item
     df["Units Sold"] = df.groupby("Product")["Units Sold"].transform(
-        lambda x: x.fillna(x.median())
+        lambda x: x.fillna(x.mode()[0])
     )
 
     # Overall fallback if item volume history is empty
-    df["Units Sold"] = df["Units Sold"].fillna(df["Units Sold"].median())
+    df["Units Sold"] = df["Units Sold"].fillna(df["Units Sold"].mode()[0])
 
     # Final math pass to ensure Total Sale matches the newly filled Units Sold
     mask_final = df["Total Sale"].isna()
