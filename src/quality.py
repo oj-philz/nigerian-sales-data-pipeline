@@ -28,7 +28,7 @@ def check_quality(data):
     chk_revenue = data["Total Sale"].notna() & (data["Total Sale"] >= 0)
 
     # Check dates
-    parsed = pd.to_datetime(data["Sale Date"], errors="coerce")
+    parsed = pd.to_datetime(data["Sale Date"], errors="coerce", format="mixed")
 
     chk_date = (
         parsed.notna()
