@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, inspect
 from sqlalchemy.engine import URL
 
 
@@ -64,12 +64,12 @@ def load_data(df: pd.DataFrame, replace: bool = False) -> int:
 
     with engine.begin() as connection:
 
-        if replace:
+        if replace and inspect(connection).has_table("sales"):
             if connection.dialect.name == "postgresql":
                 connection.execute(text("TRUNCATE TABLE sales"))
             else:
                 connection.execute(text("DELETE FROM sales"))
-
+                
         load_df.to_sql(
             name="sales",
             con=connection,
