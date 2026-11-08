@@ -65,7 +65,10 @@ def load_data(df: pd.DataFrame, replace: bool = False) -> int:
     with engine.begin() as connection:
 
         if replace:
-            connection.execute(text("TRUNCATE TABLE sales"))
+            if connection.dialect.name == "postgresql":
+                connection.execute(text("TRUNCATE TABLE sales"))
+            else:
+                connection.execute(text("DELETE FROM sales"))
 
         load_df.to_sql(
             name="sales",
